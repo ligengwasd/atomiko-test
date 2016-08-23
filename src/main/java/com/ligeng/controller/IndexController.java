@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/index")
 public class IndexController {
-//    @Autowired
-//    private ITraService traService;
+    @Autowired
+    private ITraService traService;
 
     @RequestMapping(value = "/demo")
     @ResponseBody
     public String index(@RequestParam() int id){
-//        traService.inner(id);
+        traService.inner(id);
         return "index";
     }
 
