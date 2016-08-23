@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by dev on 16-8-22.
  */
 @Service
-@Transactional
 public class TraServiceImpl implements ITraService {
 
     @Autowired
@@ -18,7 +17,7 @@ public class TraServiceImpl implements ITraService {
     @Autowired
     private OutcomeMapper outcomeMapper;
 
-//    @Transactional
+    @Transactional
     public void test(int param1){
         System.out.println(incomeMapper.addIncome());
         if (param1 == 1){
