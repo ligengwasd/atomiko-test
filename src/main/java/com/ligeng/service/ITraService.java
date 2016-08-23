@@ -8,5 +8,6 @@ package com.ligeng.service;
  * 测试事务
  */
 public interface ITraService {
-    void test(int param1);
+    void inner(int param1);
+    void outer();
 }

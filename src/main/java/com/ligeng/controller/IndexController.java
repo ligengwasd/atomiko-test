@@ -17,7 +17,7 @@ public class IndexController {
     @RequestMapping(value = "/demo")
     @ResponseBody
     public String index(@RequestParam() int id){
-//        traService.test(id);
+//        traService.inner(id);
         return "index";
     }
 

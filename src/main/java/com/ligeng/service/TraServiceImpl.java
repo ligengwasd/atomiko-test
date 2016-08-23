@@ -18,11 +18,16 @@ public class TraServiceImpl implements ITraService {
     private OutcomeMapper outcomeMapper;
 
     @Transactional
-    public void test(int param1){
+    public void inner(int param1){
         System.out.println(incomeMapper.addIncome());
-        if (param1 == 1){
-            throw new RuntimeException("1111111");
-        }
-        System.out.println(outcomeMapper.addOutcome());
+//        if (param1 == 1){
+//            throw new RuntimeException("1111111");
+//        }
+//        System.out.println(outcomeMapper.addOutcome());
+    }
+
+    @Transactional
+    public void outer(){
+        this.inner(1);
     }
 }
