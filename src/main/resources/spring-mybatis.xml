@@ -6,8 +6,6 @@
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd" >
 
-    <import resource="spring-atomikos.xml"/>
-
 <!--数据源-->
     <!--第一个数据源-->
     <bean id="aDruidXA" class="com.alibaba.druid.pool.xa.DruidXADataSource"
