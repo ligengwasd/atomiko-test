@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:tx="http://www.springframework.org/schema/tx"
+     xsi:schemaLocation="
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd" >
+
+    <import resource="spring-jta.xml"/>
+
+    <!-- myBatis文件 -->
+    <bean id="incomeSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="aDataSource" />
+        <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
+        <property name="mapperLocations" value="classpath:mappers/income/*.xml" />
+        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
+    </bean>
+    <!-- myBatis文件 -->
+    <bean id="outcomeSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="bDataSource" />
+        <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
+        <property name="mapperLocations" value="classpath:mappers/outcome/*.xml" />
+        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ligeng.mapper.income" />
+        <property name="sqlSessionFactoryBeanName" value="incomeSessionFactory" />
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ligeng.mapper.outcome" />
+        <property name="sqlSessionFactoryBeanName" value="outcomeSessionFactory" />
+    </bean>
+
+
+</beans>

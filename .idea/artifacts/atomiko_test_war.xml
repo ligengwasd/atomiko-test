@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="atomiko-test:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="AtomikoTest.war">
+      <element id="artifact" artifact-name="atomiko-test:war exploded" />
+    </root>
+  </artifact>
+</component>
