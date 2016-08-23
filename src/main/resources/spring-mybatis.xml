@@ -8,24 +8,84 @@
 
     <import resource="spring-jta.xml"/>
 
-    <!-- myBatis文件 -->
+<!--数据源-->
+    <!--第一个数据源-->
+    <bean id="aDruidXA" class="com.alibaba.druid.pool.xa.DruidXADataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/income?useUnicode=true&amp;characterEncoding=utf-8"></property>
+        <property name="username" value="root" />
+        <property name="password" value="" />
+        <property name="filters" value="stat" />
+        <property name="maxActive" value="100" />
+        <property name="initialSize" value="10" />
+        <property name="maxWait" value="60000" />
+        <property name="minIdle" value="10" />
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <property name="validationQuery" value="SELECT 'x'" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <property name="poolPreparedStatements" value="true" />
+        <property name="maxPoolPreparedStatementPerConnectionSize"
+                  value="50" />
+        <property name="maxOpenPreparedStatements" value="100" />
+    </bean>
+    <bean id="aDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean"
+          init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="ads" />
+        <property name="xaDataSource" ref="aDruidXA" />
+        <!-- NOTE: 注意不要添加以下注释的参数 -->
+        <!-- <property name="poolSize" value="10" /> -->
+        <!-- <property name="minPoolSize" value="10" /> -->
+        <property name="maxPoolSize" value="100" />
+        <property name="borrowConnectionTimeout" value="30" />
+        <property name="testQuery" value="select 1" />
+        <property name="maintenanceInterval" value="60" />
+    </bean>
+    <!--第二个数据源-->
+    <bean id="bDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean"
+          init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="bds" />
+        <property name="xaDataSourceClassName"
+                  value="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource" />
+        <!-- NOTE: 对于Druid的XA数据源的另一种配置方法 -->
+        <!-- <property name="xaDataSourceClassName" value="com.alibaba.druid.pool.xa.DruidXADataSource"/> -->
+        <property name="xaProperties">
+            <props>
+                <prop key="url">
+                    jdbc:mysql://127.0.0.1:3306/outcome?useUnicode=true&amp;characterEncoding=utf-8
+                </prop>
+                <prop key="user">root</prop>
+                <prop key="password"></prop>
+            </props>
+        </property>
+        <property name="poolSize" value="10" />
+        <property name="minPoolSize" value="10" />
+        <property name="maxPoolSize" value="100" />
+        <property name="borrowConnectionTimeout" value="30" />
+        <property name="testQuery" value="select 1" />
+        <property name="maintenanceInterval" value="60" />
+    </bean>
+
+
+<!--以下为mybatis 的SessionFactory配置-->
     <bean id="incomeSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="aDataSource" />
         <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
         <property name="mapperLocations" value="classpath:mappers/income/*.xml" />
-        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
+        <!--<property name="configLocation" value="classpath:/mybatis-config.xml"/>-->
     </bean>
-    <!-- myBatis文件 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ligeng.mapper.income" />
+        <property name="sqlSessionFactoryBeanName" value="incomeSessionFactory" />
+    </bean>
     <bean id="outcomeSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="bDataSource" />
         <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
         <property name="mapperLocations" value="classpath:mappers/outcome/*.xml" />
-        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
-    </bean>
-
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.ligeng.mapper.income" />
-        <property name="sqlSessionFactoryBeanName" value="incomeSessionFactory" />
+        <!--<property name="configLocation" value="classpath:/mybatis-config.xml"/>-->
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.ligeng.mapper.outcome" />

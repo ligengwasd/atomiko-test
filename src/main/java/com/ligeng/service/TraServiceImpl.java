@@ -18,12 +18,12 @@ public class TraServiceImpl implements ITraService {
     @Autowired
     private OutcomeMapper outcomeMapper;
 
-    @Transactional
+//    @Transactional
     public void test(int param1){
-        incomeMapper.addIncome();
+        System.out.println(incomeMapper.addIncome());
         if (param1 == 1){
             throw new RuntimeException("1111111");
         }
-        outcomeMapper.addOutcome();
+        System.out.println(outcomeMapper.addOutcome());
     }
 }

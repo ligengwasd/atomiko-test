@@ -27,7 +27,6 @@ public class TraTest {
     private ITraService traService;
 
     @org.junit.Test
-    @Transactional
     public void test11(){
         traService.test(1);
     }

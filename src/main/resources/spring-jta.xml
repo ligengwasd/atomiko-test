@@ -25,6 +25,8 @@
           class="org.springframework.transaction.jta.JtaTransactionManager">
         <property name="transactionManager" ref="AtomikosTransactionManager" />
         <property name="userTransaction" ref="AtomikosUserTransaction" />
+        <property name="allowCustomIsolationLevels" value="true" />
+        <property name="globalRollbackOnParticipationFailure" value="true" />
     </bean>
 
     <tx:annotation-driven/>
