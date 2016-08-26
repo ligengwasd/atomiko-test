@@ -16,5 +16,6 @@
     <import resource="spring-mvc.xml"/>
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-atomikos.xml"/>
+    <import resource="spring-activemq.xml"/>
 
 </beans>
